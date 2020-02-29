@@ -1,0 +1,4 @@
+binaries/
+src/*.o
+pexplorer
+start_cff.sh
