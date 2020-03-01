@@ -9,10 +9,16 @@
 #include "pefile.h"
 
 int main(int argc, char **argv) {
+    
+    if(argc < 2) {
+        fprintf(stderr, "Usage %s <path-to-exe>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
     int fd;
     struct stat file_stats;
 
-    fd = open("../binaries/sample.exe", O_RDONLY);
+    fd = open(argv[1], O_RDONLY);
     if(!fd) {
         perror("Failed to open binary file");
         exit(EXIT_FAILURE);
@@ -27,7 +33,7 @@ int main(int argc, char **argv) {
     printf("Size of the PE file is %lu bytes\n", file_size);
 
     void *memblock = mmap(NULL, file_size, PROT_READ, MAP_PRIVATE, fd, 0); 
-    if (memblock == MAP_FAILED) {
+    if(memblock == MAP_FAILED) {
         perror("Failed to map PE file");
         exit(EXIT_FAILURE);
     }
