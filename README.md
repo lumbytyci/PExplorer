@@ -11,6 +11,10 @@ Please refer to the [official documentation](https://docs.microsoft.com/en-us/wi
 ```bash
 $ make
 ```
+## Usage
+```bash
+$ ./pexplorer <path-to-exe>
+```
 
 ## Output Example
 <pre>MZ Header:
