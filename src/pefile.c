@@ -3,7 +3,7 @@
 #include "pefile.h"
 
 void extract_ms_dos_header(void *memblock, ms_dos_header *header) {
-    memcpy(header, memblock, 28);
+    memcpy(header, memblock, sizeof(ms_dos_header));
 }
 
 uint32_t extract_pe_header_offset(void *memblock) {
@@ -12,7 +12,7 @@ uint32_t extract_pe_header_offset(void *memblock) {
 
 void extract_pe_header(void *memblock, pe_file_header *header) {
     uint32_t pe_header_offset = extract_pe_header_offset(memblock);
-    memcpy(header, (uint8_t *)memblock + pe_header_offset, 24);
+    memcpy(header, (uint8_t *)memblock + pe_header_offset, sizeof(pe_file_header));
 }
 
 const char* machine_value_to_str(uint16_t machine) {

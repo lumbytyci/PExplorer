@@ -8,7 +8,7 @@ static void pexp_print_pe_file_header(pe_file_header *header);
 
 #define PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(chr, flag, msg) \
     if(chr & flag) {                                        \
-        printf("\t\t%s\n", msg);                              \
+        printf("\t%-25s %s\n", "", msg);                    \
     }                                                       \
 
 #endif
