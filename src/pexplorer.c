@@ -63,31 +63,31 @@ int main(int argc, char **argv) {
 
 static void pexp_print_ms_dos_header(ms_dos_header *h) {
     puts("\nMZ Header:");
-    printf("\tMagic: %#x (%c%c)\n", h->magic, *(char *)&h->magic, *((char *)&h->magic + 1));
-    printf("\tBytes in last page: %u\n", (unsigned int)h->extra_bytes);
-    printf("\tPages: %u\n", (unsigned int)h->pages);
-    printf("\tRelocation items: %u\n", (unsigned int)h->relocation_items);
-    printf("\tHeader size: %u\n", (unsigned int)h->header_size);
-    printf("\tMinimum allocation: %u\n", (unsigned int)h->min_allocation);
-    printf("\tMaximum allocation: %u\n", (unsigned int)h->max_allocation);
-    printf("\tInitial SS: %#x\n", h->initial_ss_reg);
-    printf("\tInitial SP: %#x\n", h->initial_sp_reg);
-    printf("\tInitial IP: %#x\n", h->initial_ip_reg);
-    printf("\tInitial CS: %#x\n", h->initial_cs_reg);
-    printf("\tChecksum: %#x\n", h->checksum);
-    printf("\tAddress of relocation table: %#x\n", h->relocation_table);
+    printf("\t%-25s %#15x (%c%c)\n", "Magic:", h->magic, *(char *)&h->magic, *((char *)&h->magic + 1));
+    printf("\t%-25s %15u\n", "Bytes in last page:",(unsigned int)h->extra_bytes);
+    printf("\t%-25s %15u\n", "Pages:", (unsigned int)h->pages);
+    printf("\t%-25s %15u\n", "Relocation items:", (unsigned int)h->relocation_items);
+    printf("\t%-25s %15u\n", "Header size:", (unsigned int)h->header_size);
+    printf("\t%-25s %15u\n", "Minimum allocation:", (unsigned int)h->min_allocation);
+    printf("\t%-25s %15u\n", "Maximum allocation:", (unsigned int)h->max_allocation);
+    printf("\t%-25s %#15x\n", "Initial SS:", h->initial_ss_reg);
+    printf("\t%-25s %#15x\n", "Initial SP:", h->initial_sp_reg);
+    printf("\t%-25s %#15x\n", "Initial IP:", h->initial_ip_reg);
+    printf("\t%-25s %#15x\n", "Initial CS:", h->initial_cs_reg);
+    printf("\t%-25s %#15x\n", "Checksum:", h->checksum);
+    printf("\t%-25s %#15x\n", "Relocation table offset:", h->relocation_table);
 }
 
 static void pexp_print_pe_file_header(pe_file_header *h) {
     puts("\nPE Header: ");
-    printf("\tMagic: %#x\n", h->magic);
-    printf("\tMachine: %#x %s\n", h->machine, machine_value_to_str(h->machine));
-    printf("\tNumber of sections: %u\n", (unsigned int)h->number_of_sections);
-    printf("\tTimestamp: %lu\n", (unsigned long)h->timestamp);
-    printf("\tPointer to symbol table: %#x\n", h->ptr_to_symbol_table);
-    printf("\tNumber of symbols: %lu\n", (unsigned long)h->num_of_symbols);
-    printf("\tOptional header size: %#x\n", h->optional_header_size);
-    printf("\tCharacteristics: %#x\n", h->characteristics);
+    printf("\t%-25s %#15x\n", "Magic:", h->magic);
+    printf("\t%-25s %#15x %s\n","Machine:", h->machine, machine_value_to_str(h->machine));
+    printf("\t%-25s %15u\n", "Number of sections:", (unsigned int)h->number_of_sections);
+    printf("\t%-25s %15lu\n", "Timestamp:", (unsigned long)h->timestamp);
+    printf("\t%-25s %#15x\n", "Pointer to symbol table:", h->ptr_to_symbol_table);
+    printf("\t%-25s %15lu\n", "Number of symbols:", (unsigned long)h->num_of_symbols);
+    printf("\t%-25s %#15x\n", "Optional header size:", h->optional_header_size);
+    printf("\t%-25s %#15x\n", "Characteristics:", h->characteristics);
     puts("\tCharacteristic flags:");
 
     uint16_t c = h->characteristics;
