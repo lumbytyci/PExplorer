@@ -1,5 +1,6 @@
 src = \
-	src/pexplorer.c
+	src/pexplorer.c \
+	src/pefile.c
 
 obj = $(src:.c=.o)
 
