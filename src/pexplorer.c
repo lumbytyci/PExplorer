@@ -31,7 +31,6 @@ int main(int argc, char **argv) {
     }
 
     size_t file_size = file_stats.st_size;
-    printf("Size of the PE file is %lu bytes\n", file_size);
 
     void *memblock = mmap(NULL, file_size, PROT_READ, MAP_PRIVATE, fd, 0); 
     if(memblock == MAP_FAILED) {
@@ -41,10 +40,17 @@ int main(int argc, char **argv) {
 
     ms_dos_header ms_header = {0};
     extract_ms_dos_header(memblock, &ms_header);
-    pexp_print_ms_dos_header(&ms_header);
+
+    if(ms_header.magic != 0x5a4d) {
+        fprintf(stderr, "File is not PE format.\n");
+        exit(EXIT_FAILURE);
+    }
     
     pe_file_header pe_header = {0};
     extract_pe_header(memblock, &pe_header);
+    
+    
+    pexp_print_ms_dos_header(&ms_header);
     pexp_print_pe_file_header(&pe_header);
 
     if(munmap(memblock, file_size) == -1) {
