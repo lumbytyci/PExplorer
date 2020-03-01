@@ -31,13 +31,11 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    //printf("First few bytes are: \n");
-    //printf("%c %c\n", *(char *)memblock, *(char *)(memblock +1));
-
     ms_dos_header ms_header = {0};
     extract_ms_dos_header(memblock, &ms_header);
     printf("The ms dos header: %X\n", ms_header.magic);
-    printf("The pe file signature offset is %X\n", ms_header.pe_header_offset);
+    printf("Initial SP: %X\n", ms_header.initial_sp_reg);
+    printf("PE header offset: %X\n", extract_pe_header_offset(memblock));
 
     if(munmap(memblock, file_size) == -1) {
         perror("Failed to delete mapping");

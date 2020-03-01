@@ -1,9 +1,11 @@
+#include <string.h>
+
 #include "pefile.h"
 
 void extract_ms_dos_header(void *memblock, ms_dos_header *header) {
-    uint16_t header_magic = *((uint16_t *)memblock);
-    uint32_t pe_signature_offset = (uint32_t)(*((uint8_t* )memblock + MS_DOS_H_SIGNATURE_LOCATION));
+    memcpy(header, memblock, 28);
+}
 
-    header->magic = header_magic;
-    header->pe_header_offset = pe_signature_offset;
+uint32_t extract_pe_header_offset(void *memblock) {
+    return *(uint32_t *)((uint8_t *)memblock + MS_DOS_H_SIGNATURE_LOCATION);
 }
