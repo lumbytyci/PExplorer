@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/lumbytyci/PExplorer.svg?branch=master)](https://travis-ci.com/lumbytyci/PExplorer)
+
 # PExplorer
 PExplorer is a linux terminal tool written in C which handles parsing of PE files. <br>
 PE (Portable Executable) is the format used by Win32 systems for executable (image) and object files, analogous <br>
