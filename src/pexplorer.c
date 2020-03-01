@@ -5,6 +5,7 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 
+#include "pexplorer.h"
 #include "pefile.h"
 
 int main(int argc, char **argv) {
@@ -33,9 +34,9 @@ int main(int argc, char **argv) {
 
     ms_dos_header ms_header = {0};
     extract_ms_dos_header(memblock, &ms_header);
-    printf("The ms dos header: %X\n", ms_header.magic);
-    printf("Initial SP: %X\n", ms_header.initial_sp_reg);
-    printf("PE header offset: %X\n", extract_pe_header_offset(memblock));
+    // printf("PE header offset: %X\n", extract_pe_header_offset(memblock));
+
+    pexp_print_ms_dos_header(&ms_header);
 
     if(munmap(memblock, file_size) == -1) {
         perror("Failed to delete mapping");
@@ -43,4 +44,21 @@ int main(int argc, char **argv) {
     }
     
     return 0;
+}
+
+static void pexp_print_ms_dos_header(ms_dos_header *h) {
+    puts("MZ Header: \n");
+    printf("\tMagic: %#x (%c%c)\n", h->magic, *(char *)&h->magic, *((char *)&h->magic + 1));
+    printf("\tBytes in last page: %u\n", (unsigned int)h->extra_bytes);
+    printf("\tPages: %u\n", (unsigned int)h->pages);
+    printf("\tRelocation items: %u\n", (unsigned int)h->relocation_items);
+    printf("\tHeader size: %u\n", (unsigned int)h->header_size);
+    printf("\tMinimum allocation: %u\n", (unsigned int)h->min_allocation);
+    printf("\tMaximum allocation: %u\n", (unsigned int)h->max_allocation);
+    printf("\tInitial SS: %#x\n", h->initial_ss_reg);
+    printf("\tInitial SP: %#x\n", h->initial_sp_reg);
+    printf("\tInitial IP: %#x\n", h->initial_ip_reg);
+    printf("\tInitial CS: %#x\n", h->initial_cs_reg);
+    printf("\tChecksum: %#x\n", h->checksum);
+    printf("\tAddress of relocation table: %#x\n", h->relocation_table);
 }
