@@ -1,5 +1,5 @@
-#ifndef pe_file_h
-#define pe_file_h
+#ifndef pexp_pe_file_h
+#define pexp_pe_file_h
 
 #define MS_DOS_H_SIGNATURE_LOCATION 0x3c
 
@@ -23,10 +23,19 @@ typedef struct {
 } ms_dos_header;
 
 typedef struct {
-
-} pe_header;
+    uint32_t magic;
+    uint16_t machine;
+    uint16_t number_of_sections;
+    uint32_t timestamp;
+    uint32_t ptr_to_symbol_table;
+    uint32_t num_of_symbols;
+    uint16_t optional_header_size;
+    uint16_t characteristics;
+} pe_file_header;
 
 void extract_ms_dos_header(void *memblock, ms_dos_header *header); 
 uint32_t extract_pe_header_offset(void *memblock);
+void extract_pe_header(void *memblock, pe_file_header *header);
+const char* machine_value_to_str(uint16_t machine);
 
 #endif

@@ -34,9 +34,11 @@ int main(int argc, char **argv) {
 
     ms_dos_header ms_header = {0};
     extract_ms_dos_header(memblock, &ms_header);
-    // printf("PE header offset: %X\n", extract_pe_header_offset(memblock));
-
     pexp_print_ms_dos_header(&ms_header);
+    
+    pe_file_header pe_header = {0};
+    extract_pe_header(memblock, &pe_header);
+    pexp_print_pe_file_header(&pe_header);
 
     if(munmap(memblock, file_size) == -1) {
         perror("Failed to delete mapping");
@@ -61,4 +63,16 @@ static void pexp_print_ms_dos_header(ms_dos_header *h) {
     printf("\tInitial CS: %#x\n", h->initial_cs_reg);
     printf("\tChecksum: %#x\n", h->checksum);
     printf("\tAddress of relocation table: %#x\n", h->relocation_table);
+}
+
+static void pexp_print_pe_file_header(pe_file_header *h) {
+    puts("PE Header: \n");
+    printf("\tMagic: %#x\n", h->magic);
+    printf("\tMachine: %#x %s\n", h->machine, machine_value_to_str(h->machine));
+    printf("\tNumber of sections: %u\n", (unsigned int)h->number_of_sections);
+    printf("\tTimestamp: %lu\n", (unsigned long)h->timestamp);
+    printf("\tPointer to symbol table: %#x\n", h->ptr_to_symbol_table);
+    printf("\tNumber of symbols: %lu\n", (unsigned long)h->num_of_symbols);
+    printf("\tOptional header size: %#x\n", h->optional_header_size);
+    printf("\tCharacteristics: %#x\n", h->characteristics);
 }
