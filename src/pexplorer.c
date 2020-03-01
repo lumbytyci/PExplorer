@@ -7,6 +7,7 @@
 
 #include "pexplorer.h"
 #include "pefile.h"
+#include "characteristics.h"
 
 int main(int argc, char **argv) {
     
@@ -55,7 +56,7 @@ int main(int argc, char **argv) {
 }
 
 static void pexp_print_ms_dos_header(ms_dos_header *h) {
-    puts("MZ Header: \n");
+    puts("\nMZ Header:");
     printf("\tMagic: %#x (%c%c)\n", h->magic, *(char *)&h->magic, *((char *)&h->magic + 1));
     printf("\tBytes in last page: %u\n", (unsigned int)h->extra_bytes);
     printf("\tPages: %u\n", (unsigned int)h->pages);
@@ -72,7 +73,7 @@ static void pexp_print_ms_dos_header(ms_dos_header *h) {
 }
 
 static void pexp_print_pe_file_header(pe_file_header *h) {
-    puts("PE Header: \n");
+    puts("\nPE Header: ");
     printf("\tMagic: %#x\n", h->magic);
     printf("\tMachine: %#x %s\n", h->machine, machine_value_to_str(h->machine));
     printf("\tNumber of sections: %u\n", (unsigned int)h->number_of_sections);
@@ -81,4 +82,23 @@ static void pexp_print_pe_file_header(pe_file_header *h) {
     printf("\tNumber of symbols: %lu\n", (unsigned long)h->num_of_symbols);
     printf("\tOptional header size: %#x\n", h->optional_header_size);
     printf("\tCharacteristics: %#x\n", h->characteristics);
+    puts("\tCharacteristic flags:");
+
+    uint16_t c = h->characteristics;
+   
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_RELOCS_STRIPPED, "IMAGE_FILE_RELOCS_STRIPPED");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_EXECUTABLE_IMAGE, "IMAGE_FILE_EXECUTABLE_IMAGE");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_LINE_NUMS_STRIPPED, "IMAGE_FILE_LINE_NUMS_STRIPPED");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_LOCAL_SYMS_STRIPPED, "IMAGE_FILE_LOCAL_SYMS_STRIPPED");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_AGGRESSIVE_WS_TRIM, "IMAGE_FILE_AGGRESSIVE_WS_TRIM");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_LARGE_ADDRESS_AWARE, "IMAGE_FILE_LARGE_ADDRESS_AWARE");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_BYTES_REVERSED_LO, "IMAGE_FILE_BYTES_REVERSED_LO");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_32BIT_MACHINE, "IMAGE_FILE_32BIT_MACHINE");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_DEBUG_STRIPPED, "IMAGE_FILE_DEBUG_STRIPPED");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP, "IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_NET_RUN_FROM_SWAP, "IMAGE_FILE_NET_RUN_FROM_SWAP");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_SYSTEM, "IMAGE_FILE_SYSTEM");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_DLL, "IMAGE_FILE_DLL");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_UP_SYSTEM_ONLY, "IMAGE_FILE_UP_SYSTEM_ONLY");
+    PEXP_PRINT_CHARACTERISTIC_IF_EXISTS(c, IMAGE_FILE_BYTES_REVERSED_HI, "IMAGE_FILE_BYTES_REVERSED_HI");
 }
