@@ -69,3 +69,7 @@ const char* machine_value_to_str(uint16_t machine) {
             return "IMAGE_FILE_MACHINE_WCEMIPSV2";
     }
 }
+
+uint32_t is_image_file(pe_file_header *header) {
+    return header->optional_header_size > 0;
+}

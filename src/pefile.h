@@ -33,9 +33,11 @@ typedef struct {
     uint16_t characteristics;
 } pe_file_header;
 
+
 void extract_ms_dos_header(void *memblock, ms_dos_header *header); 
 uint32_t extract_pe_header_offset(void *memblock);
 void extract_pe_header(void *memblock, pe_file_header *header);
 const char* machine_value_to_str(uint16_t machine);
+uint32_t is_image_file(pe_file_header *header);
 
 #endif
